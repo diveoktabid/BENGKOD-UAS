@@ -1,4 +1,5 @@
-# Proyek Machine Learning untuk prediksi tingkat obesitas berdasarkan pola makan dan kondisi fisik seseorang
+# PROYEK DATA SCIENCE 
+# Prediksi tingkat obesitas berdasarkan pola makan dan kondisi fisik seseorang
 
 **Nama:** Dive Oktabid Fikhri
 
