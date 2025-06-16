@@ -23,347 +23,317 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# CSS Embedded (sebagai backup jika file external tidak terbaca)
-def get_embedded_css():
-    """CSS embedded sebagai fallback"""
-    return """
-    <style>
-    /* Header utama */
+# CSS untuk dark mode
+st.markdown("""
+<style>
+    /* Hide default streamlit elements */
+    #MainMenu {visibility: hidden;}
+    .stDeployButton {display:none;}
+    footer {visibility: hidden;}
+    #stDecoration {display:none;}
+    
+    /* Main app background */
+    .stApp {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+    
+    /* Main container */
+    .main .block-container {
+        background-color: #2d2d2d;
+        border-radius: 10px;
+        padding: 2rem;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        border: 1px solid #404040;
+    }
+    
+    /* Header styling */
     .main-header {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #4a4a4a 0%, #333333 100%);
         padding: 2rem;
         border-radius: 10px;
         text-align: center;
         color: white;
         margin-bottom: 2rem;
+        border: 1px solid #555555;
     }
-
+    
     .main-header h1 {
         margin: 0;
         font-size: 2.5rem;
         font-weight: bold;
-        color: white !important;
+        color: white;
     }
-
+    
     .main-header p {
         margin: 0.5rem 0 0 0;
         font-size: 1.1rem;
-        opacity: 0.9;
-        color: white !important;
+        color: #cccccc;
     }
-
+    
     /* Section headers */
     .section-header {
-        background-color: #f8f9fa;
-        padding: 1rem;
+        background-color: #404040;
+        padding: 1.5rem;
         border-radius: 8px;
-        border-left: 4px solid #007bff;
-        margin: 1rem 0;
+        margin: 1.5rem 0;
+        color: white;
+        border: 1px solid #555555;
     }
-
+    
     .section-header h3 {
         margin: 0;
-        color: #007bff !important;
+        color: white;
         font-weight: bold;
+        font-size: 1.3rem;
     }
-
+    
     /* Result styling */
     .result-success {
-        background-color: #d4edda;
-        padding: 1.5rem;
+        background-color: #27ae60;
+        padding: 2rem;
         border-radius: 8px;
-        border-left: 4px solid #28a745;
-        margin: 1rem 0;
-        color: #155724 !important;
+        margin: 1.5rem 0;
+        color: white;
+        border: 1px solid #229954;
     }
-
-    .result-success h2, .result-success h3, .result-success h4, .result-success h5,
-    .result-success p, .result-success div {
-        color: #155724 !important;
-    }
-
+    
     .result-warning {
-        background-color: #fff3cd;
-        padding: 1.5rem;
+        background-color: #f39c12;
+        padding: 2rem;
         border-radius: 8px;
-        border-left: 4px solid #ffc107;
-        margin: 1rem 0;
-        color: #856404 !important;
+        margin: 1.5rem 0;
+        color: white;
+        border: 1px solid #e67e22;
     }
-
-    .result-warning h2, .result-warning h3, .result-warning h4, .result-warning h5,
-    .result-warning p, .result-warning div {
-        color: #856404 !important;
-    }
-
+    
     .result-danger {
-        background-color: #f8d7da;
-        padding: 1.5rem;
+        background-color: #e74c3c;
+        padding: 2rem;
         border-radius: 8px;
-        border-left: 4px solid #dc3545;
-        margin: 1rem 0;
-        color: #721c24 !important;
+        margin: 1.5rem 0;
+        color: white;
+        border: 1px solid #c0392b;
     }
-
-    .result-danger h2, .result-danger h3, .result-danger h4, .result-danger h5,
-    .result-danger p, .result-danger div {
-        color: #721c24 !important;
+    
+    .result-success h2, .result-success h3, .result-success h4, .result-success h5,
+    .result-warning h2, .result-warning h3, .result-warning h4, .result-warning h5,
+    .result-danger h2, .result-danger h3, .result-danger h4, .result-danger h5 {
+        color: white;
     }
-
+    
+    .result-success p, .result-warning p, .result-danger p {
+        color: white;
+    }
+    
     /* Info cards */
     .info-card {
-        background-color: #ffffff;
+        background-color: #3a3a3a;
         padding: 1.5rem;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        margin: 1rem 0;
-        border: 1px solid #e9ecef;
-        color: #212529 !important;
+        border-radius: 8px;
+        margin: 1.5rem 0;
+        border: 1px solid #555555;
+        color: white;
     }
-
+    
     .info-card h4, .info-card h5 {
-        color: #007bff !important;
+        color: #74b9ff;
         font-weight: bold;
+        margin-top: 0;
     }
-
-    .info-card p, .info-card li, .info-card strong {
-        color: #212529 !important;
+    
+    .info-card p, .info-card li {
+        color: white;
         line-height: 1.6;
     }
-
-    .info-card table td {
-        color: #212529 !important;
+    
+    .info-card strong {
+        color: #74b9ff;
     }
-
-    /* Photo placeholder */
-    .photo-placeholder {
-        width: 150px;
-        height: 150px;
-        background-color: #f8f9fa;
-        border: 2px dashed #dee2e6;
-        border-radius: 10px;
-        margin: 0 auto 1rem auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 1rem;
-        box-sizing: border-box;
-    }
-
-    .photo-placeholder p {
-        color: #6c757d !important;
-        text-align: center;
-        margin: 0;
-        font-size: 0.9rem;
-        line-height: 1.4;
-    }
-
-    .photo-placeholder code {
-        background-color: #f8f9fa !important;
-        color: #495057 !important;
-        padding: 2px 4px;
-        border-radius: 3px;
-        font-size: 0.8rem;
-        word-break: break-all;
-    }
-
+    
     /* Metric cards */
     .metric-card {
-        background-color: #ffffff;
-        padding: 1rem;
+        background-color: #3a3a3a;
+        padding: 1.5rem;
         border-radius: 8px;
         text-align: center;
-        margin: 0.5rem 0;
-        border: 1px solid #dee2e6;
-        color: #212529 !important;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        margin: 1rem 0;
+        border: 1px solid #555555;
+        color: white;
     }
-
+    
     .metric-card h5 {
         font-weight: bold;
         margin-bottom: 0.5rem;
-        color: #007bff !important;
+        color: #74b9ff;
+        margin-top: 0;
     }
-
-    .metric-card p, .metric-card strong {
-        color: #212529 !important;
+    
+    .metric-card p {
+        color: white;
         margin: 0.3rem 0;
     }
-
-    /* Text kontras */
-    .stMarkdown p {
-        color: #212529 !important;
-    }
-
-    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
-        color: #007bff !important;
-    }
-
-    .stMarkdown ul li, .stMarkdown ol li, .stMarkdown strong {
-        color: #212529 !important;
-    }
-
-    .stMarkdown code {
-        background-color: #f8f9fa !important;
-        color: #495057 !important;
-        padding: 2px 6px;
-        border-radius: 4px;
-    }
-
+    
     /* Sidebar styling */
-    .stSidebar .stMarkdown p, .stSidebar .stMarkdown strong {
-        color: #212529 !important;
+    .css-1d391kg {
+        background-color: #2d2d2d;
     }
-
+    
+    .stSidebar .stMarkdown {
+        color: white;
+    }
+    
+    .stSidebar .stMarkdown p {
+        color: white;
+    }
+    
     .stSidebar .stMarkdown h1, .stSidebar .stMarkdown h2, .stSidebar .stMarkdown h3 {
-        color: #007bff !important;
+        color: #74b9ff;
     }
-
+    
+    .stSidebar .stMarkdown strong {
+        color: #74b9ff;
+    }
+    
     /* Form styling */
+    .stSelectbox > div > div > select {
+        background-color: #404040 !important;
+        color: white !important;
+        border: 1px solid #666666 !important;
+    }
+    
     .stSelectbox label, .stSlider label {
-        color: #212529 !important;
+        color: white !important;
         font-weight: 500;
     }
-
+    
+    /* Form styling - slider track */
+    .stSlider > div > div > div > div {
+        background-color: #74b9ff !important;
+    }
+    
+    .stSlider > div > div > div {
+        background-color: #555555 !important;
+    }
+    
+    /* Select dropdown options */
+    .stSelectbox > div > div > div {
+        background-color: #404040 !important;
+        color: white !important;
+    }
+    
+    /* Number input styling */
+    .stNumberInput > div > div > input {
+        background-color: #404040 !important;
+        color: white !important;
+        border: 1px solid #666666 !important;
+    }
+    
+    /* Text input styling */
+    .stTextInput > div > div > input {
+        background-color: #404040 !important;
+        color: white !important;
+        border: 1px solid #666666 !important;
+    }
+    
+    /* Text styling */
+    .stMarkdown p {
+        color: white !important;
+    }
+    
+    .stMarkdown h1, .stMarkdown h2, .stMarkdown h3, .stMarkdown h4, .stMarkdown h5, .stMarkdown h6 {
+        color: white !important;
+    }
+    
+    .stMarkdown ul li, .stMarkdown ol li {
+        color: white !important;
+    }
+    
+    .stMarkdown strong {
+        color: #74b9ff !important;
+    }
+    
     /* Button styling */
     .stButton > button {
-        background-color: #007bff;
+        background-color: #74b9ff !important;
         color: white !important;
-        border: none;
-        border-radius: 8px;
-        padding: 0.75rem 1.5rem;
-        font-weight: bold;
-        font-size: 1.1rem;
-        transition: all 0.3s ease;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 0.75rem 1.5rem !important;
+        font-weight: bold !important;
+        font-size: 1.1rem !important;
+        transition: background-color 0.3s ease !important;
     }
-
+    
     .stButton > button:hover {
-        background-color: #0056b3;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        background-color: #0984e3 !important;
     }
-
-    .stForm .stButton > button {
-        background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
-        color: white !important;
-        border: none;
-        border-radius: 8px;
-        padding: 1rem 2rem;
-        font-weight: bold;
-        font-size: 1.2rem;
-        width: 100%;
-        margin-top: 1rem;
-    }
-
-    .stForm .stButton > button:hover {
-        background: linear-gradient(90deg, #218838 0%, #1ab085 100%);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
-    }
-
+    
     /* DataFrame styling */
+    .stDataFrame {
+        background-color: #3a3a3a !important;
+        border-radius: 8px !important;
+        border: 1px solid #555555 !important;
+    }
+    
     .stDataFrame table {
-        color: #212529 !important;
+        color: white !important;
     }
-
+    
     .stDataFrame th {
-        background-color: #f8f9fa !important;
-        color: #495057 !important;
-        font-weight: bold;
+        background-color: #404040 !important;
+        color: #74b9ff !important;
+        font-weight: bold !important;
     }
-
+    
     .stDataFrame td {
-        color: #212529 !important;
+        color: white !important;
+        background-color: #3a3a3a !important;
     }
-
+    
     /* Tabs styling */
     .stTabs [data-baseweb="tab-list"] {
         gap: 8px;
+        background-color: transparent;
     }
-
+    
     .stTabs [data-baseweb="tab"] {
         height: 50px;
-        background-color: #f8f9fa;
+        background-color: #404040;
         border-radius: 8px;
-        color: #495057 !important;
+        color: white !important;
         font-weight: bold;
+        border: 1px solid #555555;
     }
-
+    
     .stTabs [aria-selected="true"] {
-        background-color: #007bff;
+        background-color: #74b9ff !important;
         color: white !important;
     }
-
+    
     /* Metric container styling */
     div[data-testid="metric-container"] {
-        background-color: #ffffff;
-        border: 1px solid #dee2e6;
+        background-color: #3a3a3a;
+        border: 1px solid #555555;
         padding: 1rem;
         border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
     }
-
+    
     div[data-testid="metric-container"] label {
-        color: #212529 !important;
+        color: white !important;
         font-weight: bold;
     }
-
+    
     div[data-testid="metric-container"] div {
-        color: #007bff !important;
+        color: #74b9ff !important;
         font-weight: bold;
     }
-
-    /* Responsive design */
-    @media (max-width: 768px) {
-        .main-header h1 {
-            font-size: 2rem;
-        }
-        
-        .main-header p {
-            font-size: 1rem;
-        }
-        
-        .info-card {
-            padding: 1rem;
-        }
-        
-        .metric-card {
-            padding: 0.75rem;
-        }
-        
-        .photo-placeholder {
-            width: 120px;
-            height: 120px;
-        }
-        
-        .photo-placeholder p {
-            font-size: 0.8rem;
-        }
-    }
-    </style>
-    """
-
-# Load CSS dengan fallback
-def load_css():
-    """Load CSS dari file external atau gunakan embedded CSS"""
-    try:
-        # Coba load dari file external
-        if os.path.exists('styles.css'):
-            with open('styles.css', 'r', encoding='utf-8') as f:
-                css_content = f.read()
-            st.markdown(f'<style>{css_content}</style>', unsafe_allow_html=True)
-            st.success("CSS eksternal berhasil dimuat dari styles.css")
-        else:
-            raise FileNotFoundError("File styles.css tidak ditemukan")
-    except Exception as e:
-        # Gunakan CSS embedded sebagai fallback
-        st.warning(f"Tidak dapat memuat styles.css ({str(e)}). Menggunakan CSS embedded.")
-        st.markdown(get_embedded_css(), unsafe_allow_html=True)
+</style>
+""", unsafe_allow_html=True)
 
 # Fungsi untuk load model
 @st.cache_resource
 def load_models():
-    """Load model machine learning dan preprocessing"""
     try:
         model = joblib.load('models/best_model.pkl')
         scaler = joblib.load('models/scaler.pkl')
@@ -386,11 +356,7 @@ def load_models():
         return None, None, None, None
 
 def main():
-    """Fungsi utama aplikasi"""
-    # Load CSS dengan fallback
-    load_css()
-    
-    # Header yang menarik
+    # Header yang sederhana
     st.markdown("""
     <div class='main-header'>
         <h1>Sistem Prediksi Tingkat Obesitas</h1>
@@ -399,52 +365,9 @@ def main():
     """, unsafe_allow_html=True)
     
     # Sidebar untuk navigasi dan info
-    setup_sidebar()
-    
-    # Load models
-    model, scaler, label_encoder, feature_columns = load_models()
-    
-    if model is None:
-        st.error("Model tidak dapat dimuat. Pastikan file model tersedia di folder 'models/'")
-        return
-    
-    # Tabs untuk navigasi konten
-    tab1, tab2, tab3, tab4 = st.tabs([
-        "Prediksi Obesitas", 
-        "Profil Mahasiswa", 
-        "Informasi Model", 
-        "Visualisasi Data"
-    ])
-    
-    with tab1:
-        prediction_tab(model, scaler, label_encoder, feature_columns)
-    
-    with tab2:
-        profile_tab()
-    
-    with tab3:
-        model_info_tab()
-    
-    with tab4:
-        visualization_tab()
-
-def setup_sidebar():
-    """Setup sidebar dengan informasi aplikasi"""
     with st.sidebar:
         st.markdown("### Navigasi")
         st.markdown("Pilih menu di bawah untuk menjelajahi aplikasi:")
-        
-        # Profile section
-        st.markdown("---")
-        st.markdown("### Profil Mahasiswa")
-        st.markdown("""
-        **Nama:** Dive Oktabid Fikhri  
-        **NIM:** A11.2022.14202  
-        **Program Studi:** Teknik Informatika  
-        **Universitas:** Dian Nuswantoro  
-        **Mata Kuliah:** Bengkel Koding  
-        **Semester:** Genap 2024/2025
-        """)
         
         st.markdown("---")
         st.markdown("### Performa Model")
@@ -465,6 +388,29 @@ def setup_sidebar():
         **Sumber Data:** Meksiko, Peru, Kolombia  
         **Model Terbaik:** Random Forest
         """)
+
+    # Load models
+    model, scaler, label_encoder, feature_columns = load_models()
+    
+    if model is None:
+        st.error("Model tidak dapat dimuat. Pastikan file model tersedia di folder 'models/'")
+        return
+    
+    # Tabs untuk navigasi konten
+    tab1, tab2, tab3 = st.tabs([
+        "Prediksi Obesitas", 
+        "Informasi Model", 
+        "Visualisasi Data"
+    ])
+    
+    with tab1:
+        prediction_tab(model, scaler, label_encoder, feature_columns)
+    
+    with tab2:
+        model_info_tab()
+    
+    with tab3:
+        visualization_tab()
 
 def prediction_tab(model, scaler, label_encoder, feature_columns):
     """Tab untuk prediksi obesitas"""
@@ -648,151 +594,58 @@ def prediction_tab(model, scaler, label_encoder, feature_columns):
         col1, col2, col3 = st.columns([1, 2, 1])
         with col2:
             submitted = st.form_submit_button(
-                "Prediksi Tingkat Obesitas Saya",
+                "Prediksi Tingkat Obesitas",
                 use_container_width=True,
                 help="Klik untuk mendapatkan prediksi tingkat obesitas berdasarkan data yang Anda masukkan"
             )
         
         if submitted:
             with st.spinner("Sedang menganalisis data kesehatan Anda..."):
-                # Proses prediksi
-                process_prediction(
-                    gender, age, height_m, weight, family_history, favc, fcvc, ncp,
-                    caec, smoke, ch2o, scc, faf, tue, calc, mtrans,
-                    model, scaler, label_encoder, feature_columns
+                # Konversi input ke format yang dibutuhkan model
+                gender_model = "Male" if gender == "Laki-laki" else "Female"
+                family_history_model = "yes" if family_history == "Ada" else "no"
+                favc_model = "yes" if favc == "Sering" else "no"
+                smoke_model = "yes" if smoke == "Merokok" else "no"
+                scc_model = "yes" if scc == "Memantau" else "no"
+                
+                # Mapping untuk categorical variables
+                caec_mapping = {
+                    "Tidak Pernah": "no",
+                    "Kadang-kadang": "Sometimes", 
+                    "Sering": "Frequently",
+                    "Selalu": "Always"
+                }
+                
+                calc_mapping = {
+                    "Tidak Pernah": "no",
+                    "Kadang-kadang": "Sometimes",
+                    "Sering": "Frequently", 
+                    "Selalu": "Always"
+                }
+                
+                mtrans_mapping = {
+                    "Jalan Kaki": "Walking",
+                    "Sepeda": "Bike",
+                    "Transportasi Umum": "Public_Transportation",
+                    "Motor": "Motorbike",
+                    "Mobil Pribadi": "Automobile"
+                }
+                
+                # Persiapan data
+                input_data = prepare_input_data_complete(
+                    gender_model, age, height_m, weight, family_history_model, 
+                    favc_model, fcvc, ncp, caec_mapping[caec], smoke_model, 
+                    ch2o, scc_model, faf, tue, calc_mapping[calc], 
+                    mtrans_mapping[mtrans], feature_columns
                 )
-
-def process_prediction(gender, age, height_m, weight, family_history, favc, fcvc, ncp,
-                      caec, smoke, ch2o, scc, faf, tue, calc, mtrans,
-                      model, scaler, label_encoder, feature_columns):
-    """Proses prediksi obesitas"""
-    # Konversi input ke format yang dibutuhkan model
-    gender_model = "Male" if gender == "Laki-laki" else "Female"
-    family_history_model = "yes" if family_history == "Ada" else "no"
-    favc_model = "yes" if favc == "Sering" else "no"
-    smoke_model = "yes" if smoke == "Merokok" else "no"
-    scc_model = "yes" if scc == "Memantau" else "no"
-    
-    # Mapping untuk categorical variables
-    caec_mapping = {
-        "Tidak Pernah": "no",
-        "Kadang-kadang": "Sometimes", 
-        "Sering": "Frequently",
-        "Selalu": "Always"
-    }
-    
-    calc_mapping = {
-        "Tidak Pernah": "no",
-        "Kadang-kadang": "Sometimes",
-        "Sering": "Frequently", 
-        "Selalu": "Always"
-    }
-    
-    mtrans_mapping = {
-        "Jalan Kaki": "Walking",
-        "Sepeda": "Bike",
-        "Transportasi Umum": "Public_Transportation",
-        "Motor": "Motorbike",
-        "Mobil Pribadi": "Automobile"
-    }
-    
-    # Persiapan data
-    input_data = prepare_input_data(
-        gender_model, age, height_m, weight, family_history_model, 
-        favc_model, fcvc, ncp, caec_mapping[caec], smoke_model, 
-        ch2o, scc_model, faf, tue, calc_mapping[calc], 
-        mtrans_mapping[mtrans], feature_columns
-    )
-    
-    if input_data is not None:
-        # Prediksi
-        prediction, probabilities = make_prediction(model, scaler, input_data)
-        
-        if prediction is not None:
-            # Tampilkan hasil
-            display_results(prediction, probabilities, label_encoder)
-            
-            # Analisis kesehatan
-            bmi = weight / (height_m ** 2)
-            display_health_analysis(bmi, age, faf, favc_model, weight, height_m * 100, gender)
-
-def profile_tab():
-    """Tab untuk profil mahasiswa"""
-    st.markdown("""
-    <div class='section-header'>
-        <h3>Profil Mahasiswa</h3>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Profile card dengan foto
-    col1, col2 = st.columns([1, 2])
-    
-    with col1:
-        st.markdown("""
-        <div class='info-card text-center'>
-            <div class='photo-placeholder'>
-                <p style='margin: 0; font-size: 0.9rem; color: #6c757d; line-height: 1.4;'>
-                    Foto Mahasiswa<br>
-                    <strong>Masukkan link foto Anda di sini:</strong><br>
-                    <code style='font-size: 0.8rem; background: #f8f9fa; padding: 2px 4px; border-radius: 3px; color: #495057;'>
-                        https://link-foto-anda.com/foto.jpg
-                    </code>
-                </p>
-            </div>
-            <h4 style='margin: 1rem 0 0 0;'>Dive Oktabid Fikhri</h4>
-            <p style='margin: 0.5rem 0 0 0; color: #6c757d;'>A11.2022.14202</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown("""
-        <div class='info-card'>
-            <h4 style='margin-top: 0;'>Informasi Akademik</h4>
-            <table style='width: 100%; border-collapse: collapse;'>
-                <tr><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Nama Lengkap</td><td style='padding: 0.5rem 0; color: #212529;'>Dive Oktabid Fikhri</td></tr>
-                <tr style='background-color: #f8f9fa;'><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>NIM</td><td style='padding: 0.5rem 0; color: #212529;'>A11.2022.14202</td></tr>
-                <tr><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Program Studi</td><td style='padding: 0.5rem 0; color: #212529;'>Teknik Informatika</td></tr>
-                <tr style='background-color: #f8f9fa;'><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Universitas</td><td style='padding: 0.5rem 0; color: #212529;'>Dian Nuswantoro</td></tr>
-                <tr><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Mata Kuliah</td><td style='padding: 0.5rem 0; color: #212529;'>Bengkel Koding</td></tr>
-                <tr style='background-color: #f8f9fa;'><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Semester</td><td style='padding: 0.5rem 0; color: #212529;'>Genap 2024/2025</td></tr>
-                <tr><td style='padding: 0.5rem 0; font-weight: bold; color: #495057;'>Dosen Pengampu</td><td style='padding: 0.5rem 0; color: #212529;'>Tim Data Science</td></tr>
-            </table>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Project overview
-    st.markdown("""
-    <div class='info-card'>
-        <h4 style='margin-top: 0;'>Ringkasan Project Capstone</h4>
-        <p><strong>Judul:</strong> Sistem Prediksi Tingkat Obesitas Menggunakan Machine Learning</p>
-        <p><strong>Tujuan:</strong> Mengembangkan aplikasi web untuk memprediksi tingkat obesitas berdasarkan kebiasaan makan dan aktivitas fisik</p>
-        <p><strong>Teknologi:</strong> Python, Scikit-learn, Streamlit, Pandas, NumPy</p>
-        <p><strong>Dataset:</strong> 2,111 sampel dari Meksiko, Peru, dan Kolombia dengan 17 fitur kesehatan</p>
-        <p><strong>Model Terbaik:</strong> Random Forest dengan akurasi 96.2%</p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Achievements
-    st.markdown("### Pencapaian Project")
-    
-    achievements = [
-        {"title": "Akurasi Tinggi", "desc": "Mencapai akurasi 96.2% dengan model Random Forest"},
-        {"title": "Analisis Mendalam", "desc": "EDA komprehensif dengan 10 visualisasi data"},
-        {"title": "Optimasi Model", "desc": "Hyperparameter tuning untuk performa maksimal"},
-        {"title": "Aplikasi Web", "desc": "Deployment aplikasi interaktif dengan Streamlit"},
-        {"title": "Visualisasi Data", "desc": "Dashboard informatif dengan grafik interaktif"},
-        {"title": "UI/UX Friendly", "desc": "Interface yang mudah digunakan dan responsive"}
-    ]
-    
-    cols = st.columns(3)
-    for i, achievement in enumerate(achievements):
-        with cols[i % 3]:
-            st.markdown(f"""
-            <div class='metric-card'>
-                <h5 style='margin: 0;'>{achievement['title']}</h5>
-                <p style='margin: 0.5rem 0 0 0; font-size: 0.9rem;'>{achievement['desc']}</p>
-            </div>
-            """, unsafe_allow_html=True)
+                
+                if input_data is not None:
+                    # Prediksi
+                    prediction, probabilities = make_prediction_complete(model, scaler, input_data)
+                    
+                    if prediction is not None:
+                        # Tampilkan hasil
+                        display_results_complete(prediction, probabilities, label_encoder)
 
 def model_info_tab():
     """Tab untuk informasi model"""
@@ -810,7 +663,7 @@ def model_info_tab():
     with col1:
         st.markdown("""
         <div class='info-card'>
-            <h5 style='margin-top: 0;'>Model Terbaik: Random Forest</h5>
+            <h5>Model Terbaik: Random Forest</h5>
         </div>
         """, unsafe_allow_html=True)
         
@@ -824,7 +677,7 @@ def model_info_tab():
     with col2:
         st.markdown("""
         <div class='info-card'>
-            <h5 style='margin-top: 0;'>Perbandingan Semua Model</h5>
+            <h5>Perbandingan Semua Model</h5>
         </div>
         """, unsafe_allow_html=True)
         
@@ -921,67 +774,70 @@ def visualization_tab():
     
     # Generate sample visualizations if matplotlib is available
     if MATPLOTLIB_AVAILABLE:
-        generate_interactive_visualizations()
+        st.markdown("### Visualisasi Interaktif")
+        
+        # Sample BMI distribution
+        st.markdown("#### Distribusi BMI (Data Sampel)")
+        np.random.seed(42)
+        sample_bmi = np.random.normal(25, 5, 1000)
+        sample_bmi = np.clip(sample_bmi, 15, 45)
+        
+        fig, ax = plt.subplots(figsize=(10, 6))
+        fig.patch.set_facecolor('#2d2d2d')
+        ax.set_facecolor('#3a3a3a')
+        
+        ax.hist(sample_bmi, bins=30, alpha=0.7, color='#74b9ff', edgecolor='white')
+        ax.set_xlabel('BMI', color='white')
+        ax.set_ylabel('Frekuensi', color='white')
+        ax.set_title('Distribusi BMI dalam Dataset', color='white', fontsize=14)
+        ax.axvline(x=18.5, color='#27ae60', linestyle='--', label='Batas Underweight')
+        ax.axvline(x=25, color='#f39c12', linestyle='--', label='Batas Normal')
+        ax.axvline(x=30, color='#e74c3c', linestyle='--', label='Batas Overweight')
+        ax.legend()
+        ax.tick_params(colors='white')
+        plt.tight_layout()
+        st.pyplot(fig)
+        
+        # Feature importance visualization
+        st.markdown("#### Tingkat Kepentingan Fitur")
+        features = ['BMI', 'Berat Badan', 'Tinggi Badan', 'Usia', 'Riwayat Keluarga', 'Aktivitas Fisik', 'Konsumsi Air']
+        importance = [34.2, 29.8, 15.6, 8.9, 6.7, 3.1, 1.7]
+        
+        fig, ax = plt.subplots(figsize=(10, 6))
+        fig.patch.set_facecolor('#2d2d2d')
+        ax.set_facecolor('#3a3a3a')
+        
+        bars = ax.barh(features, importance, color='#74b9ff')
+        ax.set_xlabel('Tingkat Kepentingan (%)', color='white')
+        ax.set_title('Tingkat Kepentingan Fitur dalam Model Random Forest', color='white', fontsize=14)
+        
+        for bar, value in zip(bars, importance):
+            ax.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height()/2, 
+                   f'{value}%', ha='left', va='center', color='white')
+        
+        ax.tick_params(colors='white')
+        plt.tight_layout()
+        st.pyplot(fig)
+    
     else:
         st.info("Install matplotlib untuk melihat visualisasi interaktif: pip install matplotlib seaborn")
-        display_text_analysis()
-
-def generate_interactive_visualizations():
-    """Generate visualisasi interaktif"""
-    st.markdown("### Visualisasi Interaktif")
-    
-    # Sample BMI distribution
-    st.markdown("#### Distribusi BMI (Data Sampel)")
-    np.random.seed(42)
-    sample_bmi = np.random.normal(25, 5, 1000)
-    sample_bmi = np.clip(sample_bmi, 15, 45)
-    
-    fig, ax = plt.subplots(figsize=(10, 6))
-    ax.hist(sample_bmi, bins=30, alpha=0.7, color='skyblue', edgecolor='black')
-    ax.set_xlabel('BMI')
-    ax.set_ylabel('Frekuensi')
-    ax.set_title('Distribusi BMI dalam Dataset')
-    ax.axvline(x=18.5, color='green', linestyle='--', label='Batas Underweight')
-    ax.axvline(x=25, color='orange', linestyle='--', label='Batas Normal')
-    ax.axvline(x=30, color='red', linestyle='--', label='Batas Overweight')
-    ax.legend()
-    plt.tight_layout()
-    st.pyplot(fig)
-    
-    # Feature importance visualization
-    st.markdown("#### Tingkat Kepentingan Fitur")
-    features = ['BMI', 'Berat Badan', 'Tinggi Badan', 'Usia', 'Riwayat Keluarga', 'Aktivitas Fisik', 'Konsumsi Air']
-    importance = [34.2, 29.8, 15.6, 8.9, 6.7, 3.1, 1.7]
-    
-    fig, ax = plt.subplots(figsize=(10, 6))
-    bars = ax.barh(features, importance, color='lightcoral')
-    ax.set_xlabel('Tingkat Kepentingan (%)')
-    ax.set_title('Tingkat Kepentingan Fitur dalam Model Random Forest')
-    
-    for bar, value in zip(bars, importance):
-        ax.text(bar.get_width() + 0.5, bar.get_y() + bar.get_height()/2, 
-               f'{value}%', ha='left', va='center')
-    
-    plt.tight_layout()
-    st.pyplot(fig)
-
-def display_text_analysis():
-    """Display text-based analysis"""
-    st.markdown("### Ringkasan Analisis Visual")
-    st.markdown("""
-    **Temuan Utama dari Visualisasi:**
-    
-    1. **Distribusi Target**: Dataset memiliki distribusi kelas yang relatif seimbang setelah SMOTE
-    2. **Korelasi Fitur**: BMI menunjukkan korelasi tertinggi dengan tingkat obesitas
-    3. **Outlier Detection**: Dataset relatif bersih dengan outlier minimal
-    4. **Model Performance**: Random Forest konsisten unggul di semua metrik evaluasi
-    5. **Feature Importance**: Faktor fisik dominan dalam prediksi obesitas
-    """)
+        
+        # Display text-based analysis
+        st.markdown("### Ringkasan Analisis Visual")
+        st.markdown("""
+        **Temuan Utama dari Visualisasi:**
+        
+        1. **Distribusi Target**: Dataset memiliki distribusi kelas yang relatif seimbang setelah SMOTE
+        2. **Korelasi Fitur**: BMI menunjukkan korelasi tertinggi dengan tingkat obesitas
+        3. **Outlier Detection**: Dataset relatif bersih dengan outlier minimal
+        4. **Model Performance**: Random Forest konsisten unggul di semua metrik evaluasi
+        5. **Feature Importance**: Faktor fisik dominan dalam prediksi obesitas
+        """)
 
 # Helper functions untuk prediksi
-def prepare_input_data(gender, age, height, weight, family_history, favc, fcvc, ncp, 
-                      caec, smoke, ch2o, scc, faf, tue, calc, mtrans, feature_columns):
-    """Menyiapkan data input untuk prediksi"""
+def prepare_input_data_complete(gender, age, height, weight, family_history, favc, fcvc, ncp, 
+                               caec, smoke, ch2o, scc, faf, tue, calc, mtrans, feature_columns):
+    """Menyiapkan data input untuk prediksi - versi lengkap"""
     try:
         df = pd.DataFrame({
             'Age': [age],
@@ -1022,8 +878,8 @@ def prepare_input_data(gender, age, height, weight, family_history, favc, fcvc, 
         st.error(f"Error menyiapkan data: {str(e)}")
         return None
 
-def make_prediction(model, scaler, input_data):
-    """Melakukan prediksi"""
+def make_prediction_complete(model, scaler, input_data):
+    """Melakukan prediksi - versi lengkap"""
     try:
         input_scaled = scaler.transform(input_data)
         prediction = model.predict(input_scaled)[0]
@@ -1035,41 +891,14 @@ def make_prediction(model, scaler, input_data):
         st.error(f"Error dalam prediksi: {str(e)}")
         return None, None
 
-def display_results(prediction, probabilities, label_encoder):
-    """Menampilkan hasil prediksi"""
+def display_results_complete(prediction, probabilities, label_encoder):
+    """Menampilkan hasil prediksi - versi lengkap"""
     class_names = label_encoder.classes_
     predicted_class = class_names[prediction]
     confidence = probabilities[prediction] * 100
     
     # Mapping deskripsi dan styling
-    class_info = get_class_info()
-    info = class_info.get(predicted_class, {
-        'name': 'Tidak Diketahui', 'desc': '', 'style': 'result-warning', 
-        'advice': 'Konsultasikan dengan tenaga kesehatan'
-    })
-    
-    # Tampilkan hasil utama
-    st.markdown(f"""
-    <div class='{info["style"]}'>
-        <div style='text-align: center;'>
-            <h2 style='margin: 0; font-weight: bold;'>Hasil Prediksi Tingkat Obesitas</h2>
-            <h3 style='margin: 0.5rem 0; font-weight: bold;'>{info['name']}</h3>
-            <p style='font-size: 1.2rem; margin: 0.5rem 0;'><strong>Tingkat Kepercayaan: {confidence:.1f}%</strong></p>
-            <p style='margin: 0.5rem 0; font-size: 1.1rem;'>{info['desc']}</p>
-        </div>
-        <div style='margin-top: 1.5rem; padding: 1rem; background-color: rgba(255,255,255,0.8); border-radius: 5px;'>
-            <h5 style='margin: 0 0 0.5rem 0;'>Rekomendasi Kesehatan:</h5>
-            <p style='margin: 0; font-weight: 500;'>{info['advice']}</p>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Distribusi probabilitas
-    display_probability_distribution(class_names, probabilities, class_info)
-
-def get_class_info():
-    """Get class information mapping"""
-    return {
+    class_info = {
         'Insufficient_Weight': {
             'name': 'Berat Badan Kurang',
             'desc': 'Berat badan di bawah rentang normal',
@@ -1113,9 +942,29 @@ def get_class_info():
             'advice': 'Segera konsultasi dengan dokter spesialis untuk penanganan komprehensif'
         }
     }
-
-def display_probability_distribution(class_names, probabilities, class_info):
-    """Display probability distribution"""
+    
+    info = class_info.get(predicted_class, {
+        'name': 'Tidak Diketahui', 'desc': '', 'style': 'result-warning', 
+        'advice': 'Konsultasikan dengan tenaga kesehatan'
+    })
+    
+    # Tampilkan hasil utama
+    st.markdown(f"""
+    <div class='{info["style"]}'>
+        <div style='text-align: center;'>
+            <h2 style='margin: 0; font-weight: bold;'>Hasil Prediksi Tingkat Obesitas</h2>
+            <h3 style='margin: 0.5rem 0; font-weight: bold;'>{info['name']}</h3>
+            <p style='font-size: 1.2rem; margin: 0.5rem 0;'><strong>Tingkat Kepercayaan: {confidence:.1f}%</strong></p>
+            <p style='margin: 0.5rem 0; font-size: 1.1rem;'>{info['desc']}</p>
+        </div>
+        <div style='margin-top: 1.5rem; padding: 1rem; background-color: rgba(255,255,255,0.1); border-radius: 5px;'>
+            <h5 style='margin: 0 0 0.5rem 0;'>Rekomendasi Kesehatan:</h5>
+            <p style='margin: 0; font-weight: 500;'>{info['advice']}</p>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Distribusi probabilitas
     st.markdown("### Distribusi Probabilitas Semua Kelas")
     
     prob_data = []
@@ -1130,167 +979,8 @@ def display_probability_distribution(class_names, probabilities, class_info):
     prob_df = pd.DataFrame(prob_data)
     prob_df = prob_df.sort_values('Nilai Probabilitas', ascending=False)
     
+    # Display as styled dataframe
     st.dataframe(prob_df[['Kelas Obesitas', 'Probabilitas (%)']].head(7), use_container_width=True)
-    
-    # Top 3 predictions
-    st.markdown("### Tiga Prediksi Teratas")
-    
-    cols = st.columns(3)
-    top_3 = prob_df.head(3)
-    
-    for i, col in enumerate(cols):
-        if i < len(top_3):
-            row = top_3.iloc[i]
-            rank = f"Peringkat {i+1}"
-            with col:
-                st.markdown(f"""
-                <div class='metric-card'>
-                    <h5 style='margin: 0;'>{rank}</h5>
-                    <p style='margin: 0.5rem 0 0 0; font-weight: bold;'>{row['Kelas Obesitas']}</p>
-                    <p style='margin: 0.5rem 0 0 0;'>{row['Probabilitas (%)']}</p>
-                </div>
-                """, unsafe_allow_html=True)
-
-def display_health_analysis(bmi, age, faf, favc, weight, height, gender):
-    """Menampilkan analisis kesehatan lengkap"""
-    st.markdown("### Analisis Kesehatan Komprehensif")
-    
-    col1, col2, col3 = st.columns(3)
-    
-    # BMI Category
-    bmi_info = get_bmi_category(bmi)
-    activity_info = get_activity_level(faf)
-    diet_info = get_diet_status(favc)
-    
-    with col1:
-        st.markdown(f"""
-        <div class='metric-card'>
-            <h5 style='color: {bmi_info["color"]}; margin-top: 0; font-weight: bold;'>Indeks Massa Tubuh</h5>
-            <div style='font-size: 2rem; font-weight: bold; color: {bmi_info["color"]};'>{bmi:.1f}</div>
-            <p style='margin: 0.5rem 0; font-weight: bold;'><strong>Kategori:</strong> {bmi_info["category"]}</p>
-            <p style='margin: 0; font-weight: bold;'><strong>Risiko:</strong> {bmi_info["risk"]}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col2:
-        st.markdown(f"""
-        <div class='metric-card'>
-            <h5 style='color: {activity_info["color"]}; margin-top: 0;'>Tingkat Aktivitas</h5>
-            <div style='font-size: 2rem; font-weight: bold; color: {activity_info["color"]};'>{activity_info["level"]}</div>
-            <p style='margin: 0.5rem 0;'><strong>Frekuensi:</strong> {faf}/5</p>
-            <p style='margin: 0;'><strong>Saran:</strong> {activity_info["advice"]}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown(f"""
-        <div class='metric-card'>
-            <h5 style='color: {diet_info["color"]}; margin-top: 0;'>Pola Makan</h5>
-            <div style='font-size: 1.5rem; font-weight: bold; color: {diet_info["color"]};'>{diet_info["status"]}</div>
-            <p style='margin: 0.5rem 0 0 0;'><strong>Saran:</strong> {diet_info["advice"]}</p>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    # Detailed recommendations
-    display_health_recommendations(bmi, age, faf)
-    
-    # Health metrics summary table
-    display_health_summary(bmi, bmi_info, activity_info, diet_info, faf)
-
-def get_bmi_category(bmi):
-    """Get BMI category information"""
-    if bmi < 18.5:
-        return {"category": "Kurus", "color": "#17a2b8", "risk": "Rendah"}
-    elif bmi < 25:
-        return {"category": "Normal", "color": "#28a745", "risk": "Optimal"}
-    elif bmi < 30:
-        return {"category": "Kelebihan Berat Badan", "color": "#ffc107", "risk": "Sedang"}
-    else:
-        return {"category": "Obesitas", "color": "#dc3545", "risk": "Tinggi"}
-
-def get_activity_level(faf):
-    """Get activity level information"""
-    if faf <= 2:
-        return {"level": "Rendah", "color": "#dc3545", "advice": "Tingkatkan aktivitas fisik"}
-    elif faf <= 3:
-        return {"level": "Sedang", "color": "#ffc107", "advice": "Pertahankan dan tingkatkan"}
-    else:
-        return {"level": "Tinggi", "color": "#28a745", "advice": "Sangat baik, pertahankan!"}
-
-def get_diet_status(favc):
-    """Get diet status information"""
-    if favc == "yes":
-        return {"status": "Tinggi Kalori", "color": "#dc3545", "advice": "Kurangi makanan berkalori tinggi"}
-    else:
-        return {"status": "Seimbang", "color": "#28a745", "advice": "Pertahankan pola makan"}
-
-def display_health_recommendations(bmi, age, faf):
-    """Display health recommendations"""
-    st.markdown("### Rekomendasi Personal")
-    
-    recommendations = []
-    
-    if bmi < 18.5:
-        recommendations.extend([
-            "**Nutrisi**: Tingkatkan asupan kalori dengan makanan bergizi seimbang",
-            "**Olahraga**: Fokus pada latihan kekuatan untuk membangun massa otot"
-        ])
-    elif bmi >= 30:
-        recommendations.extend([
-            "**Diet**: Kurangi porsi makan dan pilih makanan rendah kalori",
-            "**Kardio**: Lakukan aktivitas kardio minimal 150 menit per minggu"
-        ])
-    elif bmi >= 25:
-        recommendations.extend([
-            "**Kalori**: Buat defisit kalori 500-750 kalori per hari",
-            "**Aktivitas**: Kombinasikan kardio dan latihan kekuatan"
-        ])
-    
-    if faf <= 2:
-        recommendations.extend([
-            "**Jadwal**: Mulai dengan olahraga 3x seminggu, durasi 30 menit",
-            "**Target**: Tingkatkan secara bertahap hingga 5x seminggu"
-        ])
-    
-    if age >= 40:
-        recommendations.extend([
-            "**Kesehatan**: Lakukan pemeriksaan kesehatan rutin setiap 6 bulan",
-            "**Tulang**: Tambahkan suplemen kalsium dan vitamin D"
-        ])
-    
-    recommendations.extend([
-        "**Hidrasi**: Minum air putih minimal 8 gelas per hari",
-        "**Tidur**: Pastikan tidur berkualitas 7-9 jam per malam"
-    ])
-    
-    for rec in recommendations[:6]:
-        st.markdown(f"- {rec}")
-
-def display_health_summary(bmi, bmi_info, activity_info, diet_info, faf):
-    """Display health metrics summary"""
-    st.markdown("### Ringkasan Metrik Kesehatan")
-    
-    health_metrics = {
-        'Metrik Kesehatan': [
-            'Indeks Massa Tubuh (BMI)',
-            'Kategori Berat Badan',
-            'Tingkat Aktivitas Fisik',
-            'Pola Konsumsi Kalori',
-            'Risiko Kesehatan',
-            'Rekomendasi Utama'
-        ],
-        'Nilai/Status': [
-            f"{bmi:.1f}",
-            bmi_info["category"],
-            f"{activity_info['level']} ({faf}/5)",
-            diet_info["status"],
-            bmi_info["risk"],
-            "Konsultasi dengan tenaga kesehatan" if bmi >= 30 or bmi < 18.5 else "Pertahankan gaya hidup sehat"
-        ]
-    }
-    
-    health_df = pd.DataFrame(health_metrics)
-    st.dataframe(health_df, use_container_width=True)
 
 if __name__ == "__main__":
     main()
