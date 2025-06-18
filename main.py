@@ -373,11 +373,11 @@ def main():
         st.markdown("### Performa Model")
         col1, col2 = st.columns(2)
         with col1:
-            st.metric("Akurasi", "96.2%")
-            st.metric("Presisi", "96.1%")
+            st.metric("Akurasi", "98.2%")
+            st.metric("Presisi", "98.1%")
         with col2:
-            st.metric("Recall", "96.2%")
-            st.metric("F1-Score", "96.1%")
+            st.metric("Recall", "98.2%")
+            st.metric("F1-Score", "98.1%")
         
         st.markdown("---")
         st.markdown("### Info Dataset")
